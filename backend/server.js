@@ -8,15 +8,19 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
+
+// Socket.IO CORS - Updated for production
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"]
+        origin: ['http://localhost:3000', 'https://chatapp-frontend-dhup.onrender.com'],
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
+// Express CORS - Updated for production
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://your-frontend-url.onrender.com'],
+    origin: ['http://localhost:3000', 'https://chatapp-frontend-dhup.onrender.com'],
     methods: ["GET", "POST"],
     credentials: true
 };

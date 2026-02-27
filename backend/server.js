@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql2');
+const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const http = require('http');
@@ -27,15 +27,19 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// MySQL connection
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chatapp',
-    port: 3307,
-    waitForConnections: true
-}).promise();
+const { Pool } = require('pg');
+
+const db = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
+
+// Test connection
+db.connect()
+    .then(() => console.log('✅ PostgreSQL connected'))
+    .catch(err => console.error('❌ PostgreSQL connection error:', err));
 
 // Test connection
 db.getConnection()

@@ -27,8 +27,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-const { Pool } = require('pg');
-
 const db = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
